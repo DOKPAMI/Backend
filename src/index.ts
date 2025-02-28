@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express"; // Request, Response 타입을 가져오기
 import dotenv from "dotenv";
 import cors from "cors";
 import { BalanceGameResult } from "./data/db/type.js";
@@ -14,18 +14,28 @@ app.use(cors());
 app.use(express.json());
 
 // 기본 API 라우트
-app.get("/", async (req, res) => {
+app.get("/balancegame/results", async (req, res) => {
   await db.balanceGameDB.read();
   res.json(db.balanceGameDB.data);
 });
 
-app.post("/", async (req, res) => {
-  const result: BalanceGameResult = { user: "tw", result: "wow" };
+// curl -X POST http://localhost:5000/balancegame/results \
+// -H "Content-Type: application/json" \
+// -d '{"user": "tw", "result": "wow"}'
+app.post("/balancegame/results", async (req: any, res: any) => {
+  const { user, result }: BalanceGameResult = req.body;
+
+  if (!user || !result) {
+    return res.status(400).json({ error: "Missing user or result" });
+  }
 
   try {
     await db.balanceGameDB.read();
-    db.balanceGameDB.data.push(result); // 데이터 추가
+    const newResult: BalanceGameResult = { user, result };
+
+    db.balanceGameDB.data.push(newResult); // 데이터 추가
     await db.balanceGameDB.write();
+
     res.json(db.balanceGameDB.data);
   } catch (err) {
     console.log("Error:", err);
