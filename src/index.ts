@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express"; // Request, Response 타입을 가져오기
 import dotenv from "dotenv";
 import cors from "cors";
-import { BalanceGameResult } from "./data/db/type.js";
-import { db } from "./data/db/db.ts";
+import { BalanceGameResult } from "./db/type.js";
+import { db } from "./db/db.ts";
 
 dotenv.config();
 

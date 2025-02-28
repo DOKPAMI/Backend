@@ -5,7 +5,7 @@ import { BalanceGameResult } from "./type.js";
 
 const adapter = (name: string) =>
   new JSONFile<BalanceGameResult[]>(
-    path.resolve(process.cwd(), `src/data/${name}-data.json`)
+    path.resolve(process.cwd(), `data/${name}-data.json`)
   );
 
 const balanceGameDB = new Low<BalanceGameResult[]>(adapter("balancegame"), []);
