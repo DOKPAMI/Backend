@@ -1,0 +1,29 @@
+import path from "path";
+import { Low } from "lowdb";
+import { JSONFile } from "lowdb/node";
+import { BalanceGameData, BalanceGameResult } from "./type.js";
+
+const adapter = (name: string) =>
+  new JSONFile<BalanceGameData>(
+    path.resolve(process.cwd(), `src/data/${name}-data.json`)
+  );
+
+const balanceGameDB = new Low<BalanceGameData>(adapter("balancegame"), {
+  datas: [],
+});
+
+const db = {
+  balanceGameDB: balanceGameDB,
+};
+
+async function initializeDB() {
+  await balanceGameDB.read();
+  // 데이터가 비어 있으면 초기화
+  if (!balanceGameDB.data) {
+    balanceGameDB.data = { datas: [] };
+  }
+}
+
+initializeDB();
+
+export { db };

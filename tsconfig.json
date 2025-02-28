@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "CommonJS",
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "module": "ESNext",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "target": "ESNext",
+    "noEmit": true, // 또는 "emitDeclarationOnly": true
     "strict": true
-}
+  }
 }
