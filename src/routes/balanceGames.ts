@@ -9,14 +9,23 @@ balanceGameRouter.get("/results", async (req, res) => {
   res.json(db.balanceGameDB.data);
 });
 
-balanceGameRouter.get("/results/ratio", async (req, res) => {
+balanceGameRouter.get("/results/percentage", async (req: any, res: any) => {
   const { resultType } = req.query;
+
+  if (!resultType) {
+    return res.status(400).json({ error: "Missing resultType" });
+  }
+
   await db.balanceGameDB.read();
-  const percent = db.balanceGameDB.data.filter(
+  if (db.balanceGameDB.data.length === 0) return res.json({ percentage: 0 });
+
+  const matchingData = db.balanceGameDB.data.filter(
     (data) => data.resultType === resultType
   );
+  const percentage = (matchingData.length / db.balanceGameDB.data.length) * 100;
 
-  res.json(db.balanceGameDB.data);
+  // 문자열임
+  res.json({ percentage: percentage.toFixed(2) });
 });
 
 // curl -X POST http://localhost:5000/balancegame/results \
