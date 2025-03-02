@@ -31,12 +31,14 @@ setInterval(fetchResults, 600000);
 // 10분마다 실행되는 함수 -> render 무료 버전 서버 유지용
 function fetchResults() {
   const now = new Date().toLocaleString(); // 현재 시각 (로컬 시간대 기준)
-  try {
-    fetch("https://backend-60km.onrender.com/api/balancegame/results").then(
-      (res) =>
-        res.json().then((data) => console.log(now, "data length:", data.length))
-    );
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
+
+  fetch("https://backend-60km.onrender.com/api/balancegame/results")
+    .then((res) => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    })
+    .then((data) => console.log(now, "data length:", data.length))
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
 }
