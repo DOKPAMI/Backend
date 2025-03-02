@@ -1,5 +1,5 @@
 import { Router } from "express";
-import balanceGameRouter from "./balancegames.ts";
+import balanceGameRouter from "./balanceGames.ts";
 
 const apiRouter = Router();
 
