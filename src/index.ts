@@ -32,7 +32,7 @@ setInterval(fetchResults, 600000);
 function fetchResults() {
   const now = new Date().toLocaleString(); // 현재 시각 (로컬 시간대 기준)
 
-  fetch("https://backend-60km.onrender.com/api/balancegame/results")
+  fetch("https://backend-60km.onrender.com/api/balancegames/results")
     .then((res) => {
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       return res.json();
